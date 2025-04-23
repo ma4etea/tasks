@@ -30,7 +30,7 @@ print("--------------------------------------")
 print("def even_countdown(n):")
 
 
-def even_countdown(n):
+def even_countdown(n: int):
     while n > 0:
         if n % 2 == 0: yield n
         n -= 1
