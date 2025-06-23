@@ -3,6 +3,8 @@ import time
 from datetime import datetime
 from functools import wraps
 from itertools import count
+from random import randint
+from typing import Callable
 
 
 def log_call(func):
@@ -291,3 +293,82 @@ def delete_user():
     print("🗑 Пользователь удалён")
 
 delete_user()
+
+print('--------Декоратор без аргументов------------------')
+
+
+class LogCall:
+    def __init__(self, func):
+        wraps(func)(self)
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        print(f'🔔 Вызов: {self.func.__name__}')
+        result = self.func(*args, **kwargs)
+        print(f'✅ Завершено: {self.func.__name__}')
+        return result
+
+
+log = LogCall
+
+@log
+def greet(name):
+    print(f"Привет, {name}!")
+
+greet("Аня")
+
+print('--------Декоратор с аргументами------------------')
+
+class LogCall:
+    def __init__(self, level="INFO"):
+        self.level = level
+
+    def __call__(self, func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            print(f"[{self.level}] 🔔 Вызов: {func.__name__}")
+            result = func(*args, **kwargs)
+            print(f"[{self.level}] ✅ Завершено: {func.__name__}")
+            return result
+        return wrapper
+
+
+log = LogCall
+
+@log('INFO')
+def greet(name):
+    print(f"Привет, {name}!")
+
+greet("Аня")
+
+
+print('--------Декоратор с аргументами------------------')
+
+def bar():
+    print(1)
+
+def decorator(errors):
+    errors: list
+    def func_wrapper(func):
+        func: Callable
+
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            for error in errors:
+                try:
+                    func()
+                except error[0]:
+                    error[1]()
+
+            return
+
+        return wrapper
+
+    return func_wrapper
+
+@decorator([(KeyError, bar), (IndexError, lambda _: print(2))])
+def foo():
+    if randint(1,2) == 1:
+        raise KeyError("bar")
+    else:
+        raise IndexError

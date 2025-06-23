@@ -211,3 +211,21 @@ class Songs:
 song = Songs.default_song()
 
 print(song.song)
+
+
+print('----------------------------------------------------------------------------------')
+
+
+
+class Call1:
+    def __init__(self, name):
+        self.name = name
+
+    def __call__(self, *args, **kwargs):
+        print(self.name)
+        print(args)
+        print(kwargs)
+
+a = Call1('Alexander')
+
+a(1,2,3, a=1,b=2,c=3)
