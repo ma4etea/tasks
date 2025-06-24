@@ -35,7 +35,21 @@
     print(manager.get_completed_tasks())  # ['Купить хлеб']
 
     """
+from abc import ABC, abstractmethod
 
+
+class AbstractTaskManager(ABC):
+    @abstractmethod
+    def add_task(self, title: str) -> None: ...
+
+    @abstractmethod
+    def complete_task(self, title: str) -> bool: ...
+
+    @abstractmethod
+    def get_pending_tasks(self) -> list[str]: ...
+
+    @abstractmethod
+    def get_completed_tasks(self) -> list[str]: ...
 
 class Task:
     def __init__(self, title: str):
@@ -43,7 +57,7 @@ class Task:
         self.completed: bool = False
 
 
-class TaskManager:
+class TaskManager(AbstractTaskManager):
 
     def __init__(self):
         self.tasks: list[Task] = []
