@@ -1,5 +1,5 @@
 
-def gcd_of_strings(self, str1: str, str2: str) -> str:
+def gcd_of_strings(str1: str, str2: str) -> str:
     # Напишите здесь свой код
     if str1 + str2 != str2 + str1:
         return ""
@@ -17,7 +17,7 @@ def gcd_of_strings(self, str1: str, str2: str) -> str:
 
 
 
-def missing_number(self, nums: list[int]) -> int:
+def missing_number(nums: list[int]) -> int:
     n = len(nums)
 
     total = n * (n + 1) // 2 # todo формула: сумма арифметической прогрессии
@@ -25,7 +25,7 @@ def missing_number(self, nums: list[int]) -> int:
     return total - nums_total
     # Напишите здесь свой код
 
-def missing_number_xor(self, nums: list[int]) -> int:
+def missing_number_xor(nums: list[int]) -> int:
     doc_path = "docs/xor.md"
 
     missing = len(nums)
@@ -36,7 +36,7 @@ def missing_number_xor(self, nums: list[int]) -> int:
 
     return missing
 
-def two_sum(self, nums: list[int], target: int) -> list[int]:
+def two_sum(nums: list[int], target: int) -> list[int]:
     table_map = {}
 
     # todo решение через хэш таблицу
@@ -48,7 +48,7 @@ def two_sum(self, nums: list[int], target: int) -> list[int]:
 
         table_map[num] = index
 
-def longest_palindrome(self, s: str) -> int:
+def longest_palindrome(s: str) -> int:
     """Самый длинный полиндром"""
 
     letter_quantity_map = {}
@@ -82,3 +82,70 @@ def insert_search(nums: list[int], target: int) -> int:
             right_index = mid_index - 1
 
     return left_index
+
+def move_zeroes(nums: list[int]) -> None:
+
+    nums_len = len(nums)
+    # todo двух указательный алгоритм
+    insert_pointer = 0
+    for num in nums:
+        if num != 0:
+            nums[insert_pointer] = num
+            insert_pointer += 1
+
+    while insert_pointer < nums_len:
+        nums[insert_pointer] = 0
+        insert_pointer += 1
+
+def remove_stars(self, s: str) -> str:
+    # todo техника "стэк"
+    stack = []
+    for l in s:
+        if l == "*" and stack:
+            stack.pop()
+        else:
+            stack.append(l)
+    return "".join(stack)
+
+
+
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+def mergeTwoLists(self, list1: ListNode, list2: ListNode) -> ListNode:
+
+    dummy = ListNode()  # фиктивный узел
+    tail = dummy  # конец нового списка
+
+    # пока оба списка не закончились
+    while list1 and list2:
+
+        if list1.val < list2.val:
+            tail.next = list1
+            list1 = list1.next
+        else:
+            tail.next = list2
+            list2 = list2.next
+
+        tail = tail.next  # двигаем хвост
+
+    # прикрепляем остаток
+    tail.next = list1 if list1 else list2
+
+    return dummy.next
+
+
+def fib(n: int) -> int:
+
+    # todo формула Бине ищет число фибо по номеру позиции, до 70 позиции безопасно
+    phi = (1+5**0.5) / 2
+    psi = (1-5**0.5) / 2
+
+    fibo = (phi**n - psi**n) / 5**0.5
+    return int(round(fibo))
+
+range()
