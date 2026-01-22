@@ -34,3 +34,5 @@ def merge_two_lists(list1: ListNode | None, list2: ListNode | None) -> list | No
 print(merge_two_lists(ListNode(1, ListNode(2)), ListNode(3, ListNode(4))))
 print(merge_two_lists(None, None))
 print(merge_two_lists(None, ListNode(1, ListNode(2))))
+
+

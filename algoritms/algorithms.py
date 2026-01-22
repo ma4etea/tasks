@@ -1,3 +1,6 @@
+from collections import Counter
+from functools import lru_cache
+
 
 def gcd_of_strings(str1: str, str2: str) -> str:
     # Напишите здесь свой код
@@ -148,4 +151,47 @@ def fib(n: int) -> int:
     fibo = (phi**n - psi**n) / 5**0.5
     return int(round(fibo))
 
-range()
+# todo bucket sort. Сортировка по бакетам
+def top_k_frequent(nums: list[int], k: int) -> list[int]:
+    buckets = [[] for _ in range(len(nums) + 1)]
+
+    for num, count in Counter(nums).items():
+        index = count
+        buckets[index].append(num)
+
+    result = []
+    for index in range(len(buckets) - 1, 0, -1):
+        for num in buckets[index]:
+            result.append(num)
+            if len(result) == k:
+                return result
+    return result
+
+# todo рекурсия, вызво функции для вычислений с кэшем (кэш возвращает резултат сразу если функция аналогичными аргументами вызывалась)
+@lru_cache
+def tribonacci(n: int) -> int:
+    if n == 0: return 0
+    if n == 1 or n == 2: return 1
+    return tribonacci(n-1) + tribonacci(n-2) + tribonacci(n-3)
+
+# todo Бэктрэк
+def combination_sum3(k: int, n: int) -> list[list[int]]:
+
+    result: list[list[int]] = []
+
+    def back_track(start: int, combo: list[int], combo_sum: int) -> None:
+        if len(combo) == k:
+            if combo_sum == n:
+                result.append(combo.copy())
+            return
+
+        for num in range(start, 9 + 1):
+            if combo_sum + num > n:
+                break
+
+            combo.append(num)
+            back_track(num + 1, combo, combo_sum + num)
+            combo.pop()
+
+    back_track(1, [], 0)
+    return result
